@@ -6,6 +6,7 @@ public record Product(
         String description,
         String link,
         String owner,
-        String contacts
+        String contacts,
+        int category_id
 ) {
 }

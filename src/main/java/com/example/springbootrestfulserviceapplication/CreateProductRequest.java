@@ -5,6 +5,7 @@ public record CreateProductRequest(
         String description,
         String link,
         String owner,
-        String contacts
+        String contacts,
+        int category_id
 ) {
 }

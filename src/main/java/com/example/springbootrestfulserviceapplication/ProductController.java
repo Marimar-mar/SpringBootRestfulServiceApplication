@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -21,7 +22,7 @@ public class ProductController {//за взаимодействие с фрон�
         Product product = productService.getProduct(productId);
         return ResponseEntity.ok(product); // Возвращаем ResponseEntity с статусом 200 OK и телом ответа
     }
-//проверка git
+
     @GetMapping("/")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
@@ -36,8 +37,14 @@ public class ProductController {//за взаимодействие с фрон�
 
     @PostMapping ("/")
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductRequest request){
-        Product productToCreate = new Product(0, request.name(), request.description(), request.link(), request.owner(), request.contacts());
+        Product productToCreate = new Product(0, request.name(), request.description(), request.link(), request.owner(), request.contacts(), request.category_id());
         Product createdProduct = productService.createProduct(productToCreate);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct); // Возвращаем ResponseEntity с статусом 201 CREATED и телом добавленного продукта
+    }
+
+    @GetMapping("/categoryName")
+    public ResponseEntity<List<Product>> getProductsByCategoryName (@RequestBody GetProductByCategoryNameRequest request){
+        List<Product> products = productService.getProductsByCategoryName(request.categoryName());
+        return ResponseEntity.ok(products);
     }
 }

@@ -26,6 +26,13 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
     private static final String SQL_GET_ALL_PRODUCTS =
             "select * from products";
 
+    private static final String SQL_GET_PRODUCTS_BY_CATEGORY_NAME =
+            "SELECT p.id, p.name, p.description, p.link, p.owner, p.contacts " +
+                    "FROM products p " +
+                    "INNER JOIN categories c ON p.category_id = c.id " +
+                    "WHERE c.name = :categoryName";
+
+
     private final ProductMapper productMapper;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -78,6 +85,19 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         return Optional.empty(); // Вернуть пустой Optional, если продукт не был создан
     }
 
+    public Optional<List<Product>> getProductsByCategoryName(String categoryName) {
+
+        System.out.println("Executing query: " + SQL_GET_PRODUCTS_BY_CATEGORY_NAME);
+        System.out.println("With parameter: " + categoryName);
+
+        var params = new MapSqlParameterSource();
+
+        params.addValue("categoryName", categoryName);
+        List<Product> products = jdbcTemplate.query(SQL_GET_PRODUCTS_BY_CATEGORY_NAME, params, productMapper);
+        return products.isEmpty() ? Optional.empty() : Optional.of(products);
+    }
+
+
     // Приватный метод для создания MapSqlParameterSource из Product
     private MapSqlParameterSource createSqlParameterSource(Product product) {
         var params = new MapSqlParameterSource();
@@ -86,6 +106,7 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         params.addValue("link", product.link());
         params.addValue("owner", product.owner());
         params.addValue("contacts", product.contacts());
+        params.addValue("category_id", product.category_id());
         return params;
     }
 }

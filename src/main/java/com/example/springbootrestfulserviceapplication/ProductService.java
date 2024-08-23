@@ -9,5 +9,7 @@ public interface ProductService {
 
     void deleteProduct(int productId);
 
-    public Product createProduct(Product product);
+    Product createProduct(Product product);
+
+    List<Product> getProductsByCategoryName (String categoryName);
 }

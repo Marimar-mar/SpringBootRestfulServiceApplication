@@ -12,4 +12,6 @@ public interface ProductRepository {//за взаимодействие с бд
     boolean deleteProduct(int Id);
 
     Optional<Product> createProduct(Product product);
+
+    Optional<List<Product>> getProductsByCategoryName (String category);
 }
