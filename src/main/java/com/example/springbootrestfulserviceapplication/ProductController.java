@@ -21,7 +21,7 @@ public class ProductController {//за взаимодействие с фрон�
         Product product = productService.getProduct(productId);
         return ResponseEntity.ok(product); // Возвращаем ResponseEntity с статусом 200 OK и телом ответа
     }
-
+//проверка git
     @GetMapping("/")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
