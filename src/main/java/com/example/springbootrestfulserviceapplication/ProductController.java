@@ -42,9 +42,9 @@ public class ProductController {//за взаимодействие с фрон�
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct); // Возвращаем ResponseEntity с статусом 201 CREATED и телом добавленного продукта
     }
 
-    @GetMapping("/categoryName")
-    public ResponseEntity<List<Product>> getProductsByCategoryName (@RequestBody GetProductByCategoryNameRequest request){
-        List<Product> products = productService.getProductsByCategoryName(request.categoryName());
-        return ResponseEntity.ok(products);
-    }
+//    @GetMapping("/categoryName")
+//    public ResponseEntity<List<Product>> getProductsByCategoryName (@RequestBody GetProductByCategoryNameRequest request){
+//        List<Product> products = productService.getProductsByCategoryName(request.categoryName());
+//        return ResponseEntity.ok(products);
+//    }
 }

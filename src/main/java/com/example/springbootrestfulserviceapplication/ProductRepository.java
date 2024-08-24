@@ -13,5 +13,5 @@ public interface ProductRepository {//за взаимодействие с бд
 
     Optional<Product> createProduct(Product product);
 
-    Optional<List<Product>> getProductsByCategoryName (String category);
+    //Optional<List<Product>> getProductsByCategoryName (String category);
 }

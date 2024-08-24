@@ -40,8 +40,8 @@ public class ProductServiceImpl implements ProductService {//реализует 
             .orElseThrow(() -> new ProductCreationException("Failed to create product in the database."));
     }
 
-    public List<Product> getProductsByCategoryName (String categoryName){
-        return productRepository.getProductsByCategoryName(categoryName)
-                .orElseThrow(() -> new NoProductsFoundException("No products found for category: " + categoryName));
-    }
+//    public List<Product> getProductsByCategoryName (String categoryName){
+//        return productRepository.getProductsByCategoryName(categoryName)
+//                .orElseThrow(() -> new NoProductsFoundException("No products found for category: " + categoryName));
+//    }
 }
