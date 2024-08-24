@@ -43,7 +43,7 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         this.productMapper = productMapper;
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    //перестало работать, вероятно из-за еще одного добавленного поля в бд
     @Override
     public Optional<Product> getProductById(int id) {
         var params = new MapSqlParameterSource();
