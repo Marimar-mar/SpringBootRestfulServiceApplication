@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProductRepositoryImpl implements ProductRepository {//внутренняя бизнеслогика
 
     private static final String SQL_GET_PRODUCT_BY_ID =
-            "select id, name, description, link, owner, contacts from products where id = :id";
+            "select id, name, description, link, owner, contacts, category_id from products where id = :id";
 
     private static final String SQL_DELETE_PRODUCT_BY_ID =
             "delete from products where id = :id";
