@@ -20,8 +20,8 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
             "delete from products where id = :id";
 
     private static final String SQL_POST_PRODUCT =
-            "INSERT INTO products (name, description, link, owner, contacts) " +
-                    "VALUES (:name, :description, :link, :owner, :contacts)";
+            "INSERT INTO products (name, description, link, owner, contacts, category_id) " +
+                    "VALUES (:name, :description, :link, :owner, :contacts, :category_id)";
 
     private static final String SQL_GET_ALL_PRODUCTS =
             "select * from products";
@@ -43,7 +43,7 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         this.productMapper = productMapper;
         this.jdbcTemplate = jdbcTemplate;
     }
-    //перестало работать, вероятно из-за еще одного добавленного поля в бд
+
     @Override
     public Optional<Product> getProductById(int id) {
         var params = new MapSqlParameterSource();
