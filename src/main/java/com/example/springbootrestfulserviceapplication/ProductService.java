@@ -11,5 +11,5 @@ public interface ProductService {
 
     Product createProduct(Product product);
 
-    //List<Product> getProductsByCategoryName (String categoryName);
+    List<Product> getProductsByCategoryName (String categoryName);
 }

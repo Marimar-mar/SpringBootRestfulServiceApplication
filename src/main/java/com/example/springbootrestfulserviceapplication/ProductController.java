@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/products")
 public class ProductController {//за взаимодействие с фронтом
@@ -29,11 +30,13 @@ public class ProductController {//за взаимодействие с фрон�
         return ResponseEntity.ok(products); // Возвращаем ResponseEntity с статусом 200 OK и телом ответа
     }
 
+
     @DeleteMapping (value = "/{productId:\\d+}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable int productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.ok(new ApiResponse("Product archived successfully")); // Возвращаем ResponseEntity с статусом 200 OK и сообщением
     }
+
 
     @PostMapping ("/")
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductRequest request){
@@ -42,9 +45,9 @@ public class ProductController {//за взаимодействие с фрон�
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct); // Возвращаем ResponseEntity с статусом 201 CREATED и телом добавленного продукта
     }
 
-//    @GetMapping("/categoryName")
-//    public ResponseEntity<List<Product>> getProductsByCategoryName (@RequestBody GetProductByCategoryNameRequest request){
-//        List<Product> products = productService.getProductsByCategoryName(request.categoryName());
-//        return ResponseEntity.ok(products);
-//    }
+    @GetMapping("/categoryName")
+    public ResponseEntity<List<Product>> getProductsByCategoryName (@RequestBody GetProductByCategoryNameRequest request){
+        List<Product> products = productService.getProductsByCategoryName(request.categoryName());
+        return ResponseEntity.ok(products);
+    }
 }

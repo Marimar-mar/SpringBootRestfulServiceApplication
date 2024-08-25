@@ -26,11 +26,11 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
     private static final String SQL_GET_ALL_PRODUCTS =
             "select * from products";
 
-//    private static final String SQL_GET_PRODUCTS_BY_CATEGORY_NAME =
-//            "SELECT p.id, p.name, p.description, p.link, p.owner, p.contacts " +
-//                    "FROM products p " +
-//                    "INNER JOIN categories c ON p.category_id = c.id " +
-//                    "WHERE c.name = :categoryName";
+    private static final String SQL_GET_PRODUCTS_BY_CATEGORY_NAME =
+            "SELECT p.id, p.name, p.description, p.link, p.owner, p.contacts, p.category_id " +
+                    "FROM products p " +
+                    "INNER JOIN categories c ON p.category_id = c.id " +
+                    "WHERE c.name = :categoryName";
 
 
     private final ProductMapper productMapper;
@@ -87,17 +87,17 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
 
 
     //в процессе настройки
-//    public Optional<List<Product>> getProductsByCategoryName(String categoryName) {
-//
-//        System.out.println("Executing query: " + SQL_GET_PRODUCTS_BY_CATEGORY_NAME);
-//        System.out.println("With parameter: " + categoryName);
-//
-//        var params = new MapSqlParameterSource();
-//
-//        params.addValue("categoryName", categoryName);
-//        List<Product> products = jdbcTemplate.query(SQL_GET_PRODUCTS_BY_CATEGORY_NAME, params, productMapper);
-//        return products.isEmpty() ? Optional.empty() : Optional.of(products);
-//    }
+    public Optional<List<Product>> getProductsByCategoryName(String categoryName) {
+
+        System.out.println("Executing query: " + SQL_GET_PRODUCTS_BY_CATEGORY_NAME);
+        System.out.println("With parameter: " + categoryName);
+
+        var params = new MapSqlParameterSource();
+
+        params.addValue("categoryName", categoryName);
+        List<Product> products = jdbcTemplate.query(SQL_GET_PRODUCTS_BY_CATEGORY_NAME, params, productMapper);
+        return products.isEmpty() ? Optional.empty() : Optional.of(products);
+    }
 
 
     // Приватный метод для создания MapSqlParameterSource из Product
