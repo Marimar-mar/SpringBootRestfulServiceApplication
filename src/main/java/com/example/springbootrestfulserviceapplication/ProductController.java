@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,13 @@ public class ProductController {//за взаимодействие с фрон�
     }
 
     @GetMapping("/productName")
-    public ResponseEntity<List<Product>> getProductByName (@RequestBody GetProductByNameRequest request) {
-        List<Product> products = productService.getProductByProductName(request.Name());
+    public ResponseEntity<List<Product>> getProductByName (@RequestParam("name") String Name) {
+        String decodedName = "";
+        try {
+            decodedName = URLDecoder.decode(Name, "UTF-8");
+        } catch (Exception e){
+        }
+        List<Product> products = productService.getProductByProductName(decodedName);
         return  ResponseEntity.ok(products);
     }
 
