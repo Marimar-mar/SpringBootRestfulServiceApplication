@@ -46,9 +46,9 @@ public class ProductController {//за взаимодействие с фрон�
     }
 
     @GetMapping("/productName")
-    public ResponseEntity<Product> getProductByName (@RequestBody GetProductByNameRequest request) {
-        Product product = productService.getProductByProductName(request.Name());
-        return ResponseEntity.ok(product);
+    public ResponseEntity<List<Product>> getProductByName (@RequestBody GetProductByNameRequest request) {
+        List<Product> products = productService.getProductByProductName(request.Name());
+        return  ResponseEntity.ok(products);
     }
 
     @GetMapping("/categoryName")

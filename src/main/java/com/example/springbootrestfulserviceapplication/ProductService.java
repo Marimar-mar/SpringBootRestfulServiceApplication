@@ -1,6 +1,7 @@
 package com.example.springbootrestfulserviceapplication;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
@@ -10,7 +11,7 @@ public interface ProductService {
     void deleteProduct(int productId);
 
     Product createProduct(Product product);
-    Product getProductByProductName (String ProductName);
+    List<Product> getProductByProductName(String ProductName);
 
     List<Product> getProductsByCategoryName (String categoryName);
 }

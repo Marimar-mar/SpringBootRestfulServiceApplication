@@ -14,7 +14,7 @@ public interface ProductRepository {//за взаимодействие с бд
 
     Optional<Product> createProduct(Product product);
 
-    Optional<Product> getProductByProductName (String ProductName);//возврат по имени продукта
+    Optional<List<Product>> getProductByProductName(String ProductName);//возврат по имени продукта
 
     Optional<List<Product>> getProductsByCategoryName (String category);
 }

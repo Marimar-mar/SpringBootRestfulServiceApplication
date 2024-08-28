@@ -32,7 +32,7 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
             "select * from products";
 
     private static final String SQL_GET_PRODUCT_BY_PRODUCT_NAME =
-            "select id, name, description, link, owner, contacts, category_id, status from products where name = :ProductName";
+            "SELECT id, name,description,link,owner,contacts, category_id, status FROM products WHERE name LIKE '%'|| :ProductName ||'%'";
 
     private static final String SQL_GET_PRODUCTS_BY_CATEGORY_NAME =
             "SELECT p.id, p.name, p.description, p.link, p.owner, p.contacts, p.category_id, p.status " +
@@ -103,17 +103,16 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
     }
 
     @Override
-    public Optional<Product> getProductByProductName(String ProductName) {
+    public Optional<List<Product>> getProductByProductName(String ProductName) {
         var params = new MapSqlParameterSource();
         params.addValue("ProductName", ProductName);
-        return jdbcTemplate.query(SQL_GET_PRODUCT_BY_PRODUCT_NAME, params, productMapper).stream().findFirst();
+        List<Product> products = jdbcTemplate.query(SQL_GET_PRODUCT_BY_PRODUCT_NAME, params, productMapper);
+        return products.isEmpty() ? Optional.empty() : Optional.of(products);
     }
 
     //в процессе настройки
     public Optional<List<Product>> getProductsByCategoryName(String categoryName) {
-
         var params = new MapSqlParameterSource();
-
         params.addValue("categoryName", categoryName);
         List<Product> products = jdbcTemplate.query(SQL_GET_PRODUCTS_BY_CATEGORY_NAME, params, productMapper);
         return products.isEmpty() ? Optional.empty() : Optional.of(products);

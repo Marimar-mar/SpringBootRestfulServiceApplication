@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Primary
 @Service
@@ -55,7 +54,7 @@ public class ProductServiceImpl implements ProductService {//реализует 
             .orElseThrow(() -> new ProductCreationException("Failed to create product in the database."));
     }
 
-    public Product getProductByProductName (String ProductName){
+    public List<Product> getProductByProductName(String ProductName){
         return productRepository.getProductByProductName(ProductName)
                 .orElseThrow(() -> new NoProductsFoundException("No products found with product name: " + ProductName));
     }
