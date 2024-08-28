@@ -18,7 +18,8 @@ public class ProductMapper implements RowMapper<Product> {
                 rs.getString("link"),
                 rs.getString("owner"),
                 rs.getString("contacts"),
-                rs.getInt("category_id")
+                rs.getInt("category_id"),
+                rs.getString("status")
         );
     }
 }

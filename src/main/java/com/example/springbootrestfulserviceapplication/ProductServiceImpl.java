@@ -23,9 +23,24 @@ public class ProductServiceImpl implements ProductService {//реализует 
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.getAllProducts()
-                .orElseThrow(() -> new NoProductsFoundException("No products found in the database."));
+    public List<Product> getAllProducts(String filter) {
+        if ("archived".equalsIgnoreCase(filter)) {
+            return productRepository.getProductsByStatus("archived")
+                    .orElseThrow(() -> new NoProductsFoundException("No archived products found in the database."));
+        } else if ("published".equalsIgnoreCase(filter)) {
+            return productRepository.getProductsByStatus("published")
+                    .orElseThrow(() -> new NoProductsFoundException("No published products found in the database."));
+        } else if ("draft".equalsIgnoreCase(filter)) {
+            return productRepository.getProductsByStatus("draft")
+                    .orElseThrow(() -> new NoProductsFoundException("No draft products found in the database."));
+        } else if ("all".equalsIgnoreCase(filter)) {
+            return productRepository.getAllProducts()
+                    .orElseThrow(() -> new NoProductsFoundException("No products found in the database."));
+        } else {
+            // По умолчанию возвращаем все активные продукты (не архивированные)
+            return productRepository.getProductsByStatus("published")
+                    .orElseThrow(() -> new NoProductsFoundException("No published products found in the database."));
+        }
     }
 
     @Override
@@ -38,6 +53,11 @@ public class ProductServiceImpl implements ProductService {//реализует 
     public Product createProduct(Product product){
     return productRepository.createProduct(product)
             .orElseThrow(() -> new ProductCreationException("Failed to create product in the database."));
+    }
+
+    public Product getProductByProductName (String ProductName){
+        return productRepository.getProductByProductName(ProductName)
+                .orElseThrow(() -> new NoProductsFoundException("No products found with product name: " + ProductName));
     }
 
     public List<Product> getProductsByCategoryName (String categoryName){

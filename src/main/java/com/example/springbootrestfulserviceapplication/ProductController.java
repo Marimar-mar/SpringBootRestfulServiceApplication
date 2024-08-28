@@ -25,8 +25,8 @@ public class ProductController {//за взаимодействие с фрон�
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "filter", required = false) String filter) {
+        List<Product> products = productService.getAllProducts(filter);
         return ResponseEntity.ok(products); // Возвращаем ResponseEntity с статусом 200 OK и телом ответа
     }
 
@@ -40,9 +40,15 @@ public class ProductController {//за взаимодействие с фрон�
 
     @PostMapping ("/")
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductRequest request){
-        Product productToCreate = new Product(0, request.name(), request.description(), request.link(), request.owner(), request.contacts(), request.category_id());
+        Product productToCreate = new Product(0, request.name(), request.description(), request.link(), request.owner(), request.contacts(), request.category_id(), "draft");
         Product createdProduct = productService.createProduct(productToCreate);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct); // Возвращаем ResponseEntity с статусом 201 CREATED и телом добавленного продукта
+    }
+
+    @GetMapping("/productName")
+    public ResponseEntity<Product> getProductByName (@RequestBody GetProductByNameRequest request) {
+        Product product = productService.getProductByProductName(request.Name());
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/categoryName")

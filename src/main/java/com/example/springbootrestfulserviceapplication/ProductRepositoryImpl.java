@@ -14,20 +14,28 @@ import java.util.Optional;
 public class ProductRepositoryImpl implements ProductRepository {//внутренняя бизнеслогика
 
     private static final String SQL_GET_PRODUCT_BY_ID =
-            "select id, name, description, link, owner, contacts, category_id from products where id = :id";
+            "select id, name, description, link, owner, contacts, category_id, status from products where id = :id";
 
     private static final String SQL_DELETE_PRODUCT_BY_ID =
             "delete from products where id = :id";
 
     private static final String SQL_POST_PRODUCT =
-            "INSERT INTO products (name, description, link, owner, contacts, category_id) " +
-                    "VALUES (:name, :description, :link, :owner, :contacts, :category_id)";
+            "INSERT INTO products (name, description, link, owner, contacts, category_id, status) " +
+                    "VALUES (:name, :description, :link, :owner, :contacts, :category_id, :status)";
 
+    // SQL-запрос для получения продуктов с определенным статусом
+    private static final String SQL_GET_PRODUCTS_BY_STATUS =
+            "select * from products where status = :status";
+
+    // SQL-запрос для получения всех продуктов, вне зависимости от их статуса
     private static final String SQL_GET_ALL_PRODUCTS =
             "select * from products";
 
+    private static final String SQL_GET_PRODUCT_BY_PRODUCT_NAME =
+            "select id, name, description, link, owner, contacts, category_id, status from products where name = :ProductName";
+
     private static final String SQL_GET_PRODUCTS_BY_CATEGORY_NAME =
-            "SELECT p.id, p.name, p.description, p.link, p.owner, p.contacts, p.category_id " +
+            "SELECT p.id, p.name, p.description, p.link, p.owner, p.contacts, p.category_id, p.status " +
                     "FROM products p " +
                     "INNER JOIN categories c ON p.category_id = c.id " +
                     "WHERE c.name = :categoryName";
@@ -52,6 +60,14 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
     }
 
     @Override
+    public Optional<List<Product>> getProductsByStatus(String status) {
+        var params = new MapSqlParameterSource();
+        params.addValue("status", status);
+        List<Product> products = jdbcTemplate.query(SQL_GET_PRODUCTS_BY_STATUS, params, productMapper);
+        return products.isEmpty() ? Optional.empty() : Optional.of(products);
+    }
+
+    @Override
     public Optional<List<Product>> getAllProducts() {
         var params = new MapSqlParameterSource();
         List<Product> products = jdbcTemplate.query(SQL_GET_ALL_PRODUCTS, params, productMapper);
@@ -68,6 +84,7 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
     }
     //создать продукт
     public Optional<Product> createProduct(Product product){
+
         var params = createSqlParameterSource(product);
 
         // Используем KeyHolder для захвата сгенерированного ключа (id)
@@ -85,12 +102,15 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         return Optional.empty(); // Вернуть пустой Optional, если продукт не был создан
     }
 
+    @Override
+    public Optional<Product> getProductByProductName(String ProductName) {
+        var params = new MapSqlParameterSource();
+        params.addValue("ProductName", ProductName);
+        return jdbcTemplate.query(SQL_GET_PRODUCT_BY_PRODUCT_NAME, params, productMapper).stream().findFirst();
+    }
 
     //в процессе настройки
     public Optional<List<Product>> getProductsByCategoryName(String categoryName) {
-
-        System.out.println("Executing query: " + SQL_GET_PRODUCTS_BY_CATEGORY_NAME);
-        System.out.println("With parameter: " + categoryName);
 
         var params = new MapSqlParameterSource();
 
@@ -109,6 +129,7 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         params.addValue("owner", product.owner());
         params.addValue("contacts", product.contacts());
         params.addValue("category_id", product.category_id());
+        params.addValue("status", product.status());
         return params;
     }
 }
