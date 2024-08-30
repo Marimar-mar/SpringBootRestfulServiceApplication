@@ -36,7 +36,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Отключаем защиту от CSRF (межсайтовой подделки запросов), так как она не нужна для REST API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/register", "/auth/{userId:\\d+}").permitAll() // Разрешаем неавторизованный доступ к страницам авторизации и регистрации
-                        //.requestMatchers("/products/").permitAll() // Разрешаем неавторизованный доступ к странице с продуктами
+                        .requestMatchers("/products/").permitAll() // Разрешаем неавторизованный доступ к странице с продуктами
+                        .requestMatchers("/categories/").permitAll() // Разрешаем неавторизованный доступ к странице с продуктами
+                        .requestMatchers("/products/productName").permitAll()
                         .anyRequest().authenticated() // Все остальные запросы требуют авторизации
                 )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class); // Добавляем фильтр JWT перед стандартным фильтром аутентификации

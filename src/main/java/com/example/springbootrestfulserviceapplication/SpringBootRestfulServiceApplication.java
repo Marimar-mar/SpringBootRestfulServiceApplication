@@ -22,7 +22,7 @@ public class SpringBootRestfulServiceApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 // Отключаем CORS для всех маршрутов
-                registry.addMapping("/*").allowedOrigins("*").allowedMethods("*");
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
             }
         };
     }
