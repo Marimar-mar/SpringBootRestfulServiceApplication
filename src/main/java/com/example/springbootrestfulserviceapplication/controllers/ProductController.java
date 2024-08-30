@@ -70,7 +70,6 @@ public class ProductController {//за взаимодействие с фрон�
     // Далее реальный функционал
     @GetMapping(value = "/{productId:\\d+}")
     public ResponseEntity<Product> getProduct(@PathVariable int productId) {
-
         Product product = productService.getProduct(productId);
         return ResponseEntity.ok(product); // Возвращаем ResponseEntity с статусом 200 OK и телом ответа
     }
@@ -97,7 +96,7 @@ public class ProductController {//за взаимодействие с фрон�
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct); // Возвращаем ResponseEntity с статусом 201 CREATED и телом добавленного продукта
     }
 
-    @PreAuthorize("hasRole('admin')")
+    //@PreAuthorize("hasRole('admin')")
     @GetMapping("/productName")
     public ResponseEntity<List<Product>> getProductByName (@RequestParam("name") String Name) {
         String decodedName;

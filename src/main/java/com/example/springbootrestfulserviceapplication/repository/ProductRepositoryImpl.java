@@ -112,7 +112,6 @@ public class ProductRepositoryImpl implements ProductRepository {//внутре�
         return products.isEmpty() ? Optional.empty() : Optional.of(products);
     }
 
-    //в процессе настройки
     public Optional<List<Product>> getProductsByCategoryName(String categoryName) {
         var params = new MapSqlParameterSource();
         params.addValue("categoryName", categoryName);
